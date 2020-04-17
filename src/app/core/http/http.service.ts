@@ -1,5 +1,18 @@
-import { Inject, Injectable, InjectionToken, Injector, Optional, Type } from '@angular/core';
-import { HttpClient, HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import {
+  Inject,
+  Injectable,
+  InjectionToken,
+  Injector,
+  Optional,
+  Type
+} from '@angular/core';
+import {
+  HttpClient,
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ErrorHandlerInterceptor } from './error-handler.interceptor';
@@ -9,11 +22,9 @@ import { ApiPrefixInterceptor } from './api-prefix.interceptor';
 // HttpClient is declared in a re-exported module, so we have to extend the original module to make it work properly
 // (see https://github.com/Microsoft/TypeScript/issues/13897)
 declare module '@angular/common/http/http' {
-
   // Augment HttpClient with the added configuration methods from HttpService, to allow in-place replacement of
   // HttpClient with HttpService using dependency injection
   export interface HttpClient {
-
     /**
      * Enables caching for this request.
      * @param forceUpdate Forces request to be made and updates cache entry.
@@ -32,20 +43,19 @@ declare module '@angular/common/http/http' {
      * @return The new instance.
      */
     disableApiPrefix(): HttpClient;
-
   }
-
 }
 
 // From @angular/common/http/src/interceptor: allows to chain interceptors
 class HttpInterceptorHandler implements HttpHandler {
-
-  constructor(private next: HttpHandler, private interceptor: HttpInterceptor) { }
+  constructor(
+    private next: HttpHandler,
+    private interceptor: HttpInterceptor
+  ) {}
 
   handle(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     return this.interceptor.intercept(request, this.next);
   }
-
 }
 
 /**
@@ -56,7 +66,9 @@ class HttpInterceptorHandler implements HttpHandler {
  * For static interceptors that should always be enabled (like ApiPrefixInterceptor), use the standard
  * HTTP_INTERCEPTORS token.
  */
-export const HTTP_DYNAMIC_INTERCEPTORS = new InjectionToken<HttpInterceptor>('HTTP_DYNAMIC_INTERCEPTORS');
+export const HTTP_DYNAMIC_INTERCEPTORS = new InjectionToken<HttpInterceptor>(
+  'HTTP_DYNAMIC_INTERCEPTORS'
+);
 
 /**
  * Extends HttpClient with per request configuration using dynamic interceptors.
@@ -65,10 +77,13 @@ export const HTTP_DYNAMIC_INTERCEPTORS = new InjectionToken<HttpInterceptor>('HT
   providedIn: 'root'
 })
 export class HttpService extends HttpClient {
-
-  constructor(private httpHandler: HttpHandler,
-              private injector: Injector,
-              @Optional() @Inject(HTTP_DYNAMIC_INTERCEPTORS) private interceptors: HttpInterceptor[] = []) {
+  constructor(
+    private httpHandler: HttpHandler,
+    private injector: Injector,
+    @Optional()
+    @Inject(HTTP_DYNAMIC_INTERCEPTORS)
+    private interceptors: HttpInterceptor[] = []
+  ) {
     super(httpHandler);
 
     if (!this.interceptors) {
@@ -81,7 +96,8 @@ export class HttpService extends HttpClient {
   }
 
   cache(forceUpdate?: boolean): HttpClient {
-    const cacheInterceptor = this.injector.get(CacheInterceptor as Type<CacheInterceptor>)
+    const cacheInterceptor = this.injector
+      .get(CacheInterceptor as Type<CacheInterceptor>)
       .configure({ update: forceUpdate });
     return this.addInterceptor(cacheInterceptor);
   }
@@ -103,7 +119,9 @@ export class HttpService extends HttpClient {
     return new HttpClient(handler).request(method, url, options);
   }
 
-  private removeInterceptor(interceptorType: Type<HttpInterceptor>): HttpService {
+  private removeInterceptor(
+    interceptorType: Type<HttpInterceptor>
+  ): HttpService {
     return new HttpService(
       this.httpHandler,
       this.injector,
@@ -118,5 +136,4 @@ export class HttpService extends HttpClient {
       this.interceptors.concat([interceptor])
     );
   }
-
 }

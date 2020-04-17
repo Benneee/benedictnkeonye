@@ -23,7 +23,6 @@ export function extract(s: string) {
   providedIn: 'root'
 })
 export class I18nService {
-
   defaultLanguage!: string;
   supportedLanguages!: string[];
 
@@ -47,8 +46,11 @@ export class I18nService {
     this.language = '';
 
     // Warning: this subscription will always be alive for the app's lifetime
-    this.langChangeSubscription = this.translateService.onLangChange
-      .subscribe((event: LangChangeEvent) => { localStorage.setItem(languageKey, event.lang); });
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        localStorage.setItem(languageKey, event.lang);
+      }
+    );
   }
 
   /**
@@ -67,13 +69,19 @@ export class I18nService {
    * @param language The IETF language code to set.
    */
   set language(language: string) {
-    language = language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
+    language =
+      language ||
+      localStorage.getItem(languageKey) ||
+      this.translateService.getBrowserCultureLang();
     let isSupportedLanguage = this.supportedLanguages.includes(language);
 
     // If no exact match is found, search without the region
     if (language && !isSupportedLanguage) {
       language = language.split('-')[0];
-      language = this.supportedLanguages.find(supportedLanguage => supportedLanguage.startsWith(language)) || '';
+      language =
+        this.supportedLanguages.find(supportedLanguage =>
+          supportedLanguage.startsWith(language)
+        ) || '';
       isSupportedLanguage = Boolean(language);
     }
 
@@ -93,5 +101,4 @@ export class I18nService {
   get language(): string {
     return this.translateService.currentLang;
   }
-
 }

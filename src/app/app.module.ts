@@ -11,29 +11,28 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { environment } from '@env/environment';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
-import { HomeModule } from './home/home.module';
-import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   imports: [
     BrowserModule,
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('./ngsw-worker.js', {
+      enabled: environment.production
+    }),
     FormsModule,
     HttpClientModule,
     TranslateModule.forRoot(),
     NgbModule,
     CoreModule,
     SharedModule,
-    ShellModule,
-    HomeModule,
     Angulartics2Module.forRoot(),
-    AppRoutingModule // must be imported as the last module as it contains the fallback route
+    AppRoutingModule,
+    IonicModule.forRoot() // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
