@@ -1,0 +1,8 @@
+{
+  "name": "benneee-posts",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
