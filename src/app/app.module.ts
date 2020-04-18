@@ -1,3 +1,5 @@
+import { SignUpPageModule } from './auth/sign-up/sign-up.module';
+import { LoginPageModule } from './auth/login/login.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +29,8 @@ import { IonicModule } from '@ionic/angular';
     NgbModule,
     CoreModule,
     SharedModule,
+    LoginPageModule,
+    SignUpPageModule,
     Angulartics2Module.forRoot(),
     AppRoutingModule,
     IonicModule.forRoot() // must be imported as the last module as it contains the fallback route

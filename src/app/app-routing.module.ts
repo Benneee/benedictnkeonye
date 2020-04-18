@@ -4,7 +4,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
   // Fallback when no prior route is matched
-  { path: '**', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>
