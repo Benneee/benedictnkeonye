@@ -1,0 +1,82 @@
+<ion-header color="primary">
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-card class="ion-margin-bottom">
+    <div class="ion-text-center">
+      <img
+        src="../../../assets/images/auth.svg"
+        alt="Login"
+        class="login-img"
+      />
+    </div>
+
+    <ion-card-header class="ion-text-center">
+      <ion-card-subtitle>Enter account details</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="submit()">
+        <ion-grid>
+          <ion-row>
+            <ion-col size-sm="6" offset-sm="3">
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input type="email" formControlName="email"></ion-input>
+                </ion-item>
+                <ion-item
+                  lines="none"
+                  *ngIf="controls?.email.touched && !controls?.email.valid"
+                >
+                  <small>Enter a valid email address</small>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Password</ion-label>
+                  <ion-input
+                    type="password"
+                    formControlName="password"
+                  ></ion-input>
+                </ion-item>
+                <ion-item
+                  lines="none"
+                  *ngIf="controls?.password.touched && controls?.password.invalid"
+                >
+                  <small>Enter your password</small>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-margin-bottom">
+            <ion-col size-sm="6" offset-sm="3">
+              <ion-button
+                color="primary"
+                type="submit"
+                [disabled]="!loginForm.valid"
+                expand="block"
+              >
+                Log in
+              </ion-button>
+              <ion-item>
+                <p>
+                  Don't have an account? Create one
+                  <a
+                    [routerLink]="['/signup']"
+                    routerLinkActive="router-link-active"
+                    >here</a
+                  >
+                </p>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+      <ion-item *ngIf="error !== null">
+        <small class="ion-text-danger"> {{ error }} </small>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
