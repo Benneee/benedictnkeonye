@@ -17,6 +17,7 @@ const log = new Logger('Home');
 export class HomePage implements OnInit, OnDestroy {
   isLoading = true;
   userObj: any;
+  createNow = false;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -58,5 +59,12 @@ export class HomePage implements OnInit, OnDestroy {
             },
           );
       });
+  }
+
+  createPost() {
+    this.createNow = true;
+    if (this.createNow === true) {
+      log.debug('Btn Clicked!');
+    }
   }
 }
