@@ -1,22 +1,20 @@
-import { untilDestroyed } from '../core/until-destroyed';
-import { AuthService } from './../auth/auth.service';
+import { Logger } from './../../core/logger.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Logger } from '../core/logger.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
-import { Credentials } from '../auth/credentials.service';
+import { finalize } from 'rxjs/operators';
+import { untilDestroyed } from 'src/app/core/until-destroyed';
 
-const log = new Logger('Home');
-
+const log = new Logger('Profile');
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-profile',
+  templateUrl: './profile.page.html',
+  styleUrls: ['./profile.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
-  isLoading = true;
-  userObj: any;
+export class ProfilePage implements OnInit, OnDestroy {
+  isLoading = false;
+
   constructor(
     private authService: AuthService,
     private router: Router,
