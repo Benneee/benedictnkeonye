@@ -1,3 +1,5 @@
+import { PostsService } from './../../services/posts.service';
+import { UserService } from './../../services/user.service';
 import { Logger } from './../../core/logger.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -14,14 +16,21 @@ const log = new Logger('Profile');
 })
 export class ProfilePage implements OnInit, OnDestroy {
   isLoading = false;
+  profileInfo = null;
+  posts: any[] = [];
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
+    private userService: UserService,
+    private postsService: PostsService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getUserPosts();
+    this.getUserProfileInfo();
+  }
 
   ngOnDestroy() {}
 
@@ -53,6 +62,73 @@ export class ProfilePage implements OnInit, OnDestroy {
             (error: any) => {
               log.debug('error: ', error);
               loader.dismiss();
+            },
+          );
+      });
+  }
+
+  getUserProfileInfo() {
+    this.isLoading = true;
+    this.loadingCtrl
+      .create({
+        message: 'Loading profile information',
+      })
+      .then((loader) => {
+        loader.present();
+        const logout$ = this.userService.getUserProfile();
+
+        logout$
+          .pipe(
+            finalize(() => {
+              this.isLoading = false;
+            }),
+            untilDestroyed(this),
+          )
+          .subscribe(
+            (res: any) => {
+              if (res) {
+                log.debug('profileInfo: ', res.data);
+                this.profileInfo = res.data;
+                loader.dismiss();
+              }
+            },
+            (error: any) => {
+              log.debug('error: ', error);
+              this.profileInfo = null;
+              loader.dismiss();
+            },
+          );
+      });
+  }
+
+  getUserPosts() {
+    this.isLoading = true;
+    this.loadingCtrl
+      .create({
+        message: 'Loading posts',
+      })
+      .then((loader) => {
+        // loader.present();
+        const posts$ = this.postsService.getPosts();
+
+        posts$
+          .pipe(
+            finalize(() => {
+              this.isLoading = false;
+            }),
+            untilDestroyed(this),
+          )
+          .subscribe(
+            (res: any) => {
+              if (res) {
+                log.debug('posts: ', res.data);
+                this.posts = res.data;
+                // loader.dismiss();
+              }
+            },
+            (error: any) => {
+              log.debug('error: ', error);
+              // loader.dismiss();
             },
           );
       });

@@ -10,4 +10,52 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content [fullscreen]="true">
+  <div
+    class="ion-text-center ion-margin-top"
+    *ngIf="profileInfo !== null && !isLoading"
+  >
+    <img
+      [src]="profileInfo?.avatar"
+      alt="{{ profileInfo?.name }}"
+      class="avatar"
+    />
+    <ion-label>
+      <h2 class="ion-margin-bottom ion-text-capitalize">
+        {{ profileInfo?.name }}
+      </h2>
+      <p>
+        {{ profileInfo?.createdAt | date: 'dd MMM. yyyy' }}
+      </p>
+
+      <p>{{ profileInfo?.bio }}</p>
+    </ion-label>
+    <ion-item>
+      <h5>Posts</h5>
+    </ion-item>
+    <!-- <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+  </div>
+
+  <div
+    class="ion-text-center ion-margin-top"
+    *ngIf="profileInfo === null && !isLoading"
+  >
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Profile Info Unavailable</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          Hi! Kindly ensure you are logged in and your internet connection is
+          currently available.ion-card-content.
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
