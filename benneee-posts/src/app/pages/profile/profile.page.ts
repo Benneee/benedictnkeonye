@@ -1,4 +1,4 @@
-import { PostsService } from './../../services/posts.service';
+import { PostsService, PostItem } from './../../services/posts.service';
 import { UserService } from './../../services/user.service';
 import { Logger } from './../../core/logger.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -17,7 +17,7 @@ const log = new Logger('Profile');
 export class ProfilePage implements OnInit, OnDestroy {
   isLoading = false;
   profileInfo = null;
-  posts: any[] = [];
+  posts: PostItem[] = [];
 
   constructor(
     private authService: AuthService,
@@ -123,6 +123,10 @@ export class ProfilePage implements OnInit, OnDestroy {
               if (res) {
                 log.debug('posts: ', res.data);
                 this.posts = res.data;
+                this.posts = this.posts.slice(0, 3);
+                // this.posts.map((post: PostItem) => {
+                //   log.debug('post images: ', post.postImages['0'].images[0]);
+                // });
                 // loader.dismiss();
               }
             },

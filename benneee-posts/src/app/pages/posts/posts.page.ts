@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { untilDestroyed } from 'src/app/core/until-destroyed';
+import { PostItem } from 'src/app/services/posts.service';
 
 const log = new Logger('Posts');
 
@@ -15,6 +16,7 @@ const log = new Logger('Posts');
 })
 export class PostsPage implements OnInit, OnDestroy {
   isLoading = false;
+  posts: PostItem[] = [];
 
   constructor(
     private authService: AuthService,

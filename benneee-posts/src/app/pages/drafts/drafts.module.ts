@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,8 +14,9 @@ import { DraftsPage } from './drafts.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DraftsPageRoutingModule
+    SharedModule,
+    DraftsPageRoutingModule,
   ],
-  declarations: [DraftsPage]
+  declarations: [DraftsPage],
 })
 export class DraftsPageModule {}
