@@ -1,0 +1,29 @@
+<ion-item>
+  <ion-thumbnail slot="start">
+    <ion-img [src]="(post?.postImages)['0'].images[0]"></ion-img>
+  </ion-thumbnail>
+  <ion-label>
+    <h1>{{ post?.title }}</h1>
+    <div class="offer-details">
+      <ion-text color="primary" class="space-left" color="dark">{{
+        post?.description
+      }}</ion-text>
+    </div>
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <small>
+              {{ post?.category }}
+            </small>
+          </ion-col>
+          <ion-col>
+            <small>
+              {{ post?.createdAt | date: 'dd MMM. yyyy' }}
+            </small>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-label>
+</ion-item>

@@ -51,6 +51,7 @@ export class LoginPage implements OnInit, OnDestroy {
     this.loadingCtrl
       .create({
         message: 'Logging you in...',
+        keyboardClose: true,
       })
       .then((loader) => {
         loader.present();
