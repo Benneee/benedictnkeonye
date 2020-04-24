@@ -69,6 +69,7 @@ export class SignupPage implements OnInit, OnDestroy {
     this.loadingCtrl
       .create({
         message: 'Signing you up...',
+        keyboardClose: true,
       })
       .then((loader) => {
         loader.present();

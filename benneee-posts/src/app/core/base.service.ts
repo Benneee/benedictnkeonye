@@ -25,7 +25,7 @@ export class BaseService<M> {
     this.headers = {
       headers: new HttpHeaders({ Authorization: 'Bearer ' + this.token }),
     };
-    return this.httpClient.get(url).pipe(
+    return this.httpClient.get(url, this.headers).pipe(
       map((body: any) => body),
       catchError(this.handleError),
     );
