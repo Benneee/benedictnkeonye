@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { untilDestroyed } from '../core/until-destroyed';
 import { AuthService } from './../auth/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -19,15 +20,44 @@ export class HomePage implements OnInit, OnDestroy {
   userObj: any;
   createNow = false;
   preview = false;
+
+  editorContent: string;
+
+  config = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }],
+      [{ align: [] }],
+      ['link', 'image', 'video'],
+    ],
+  };
+
+  postForm: FormGroup;
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
+    private fb: FormBuilder,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initPostForm();
+  }
 
   ngOnDestroy() {}
+
+  initPostForm() {
+    this.postForm = this.fb.group({
+      body: ['', Validators.required],
+      category: ['', Validators.required],
+      description: ['', Validators.required],
+      published: [false],
+      title: ['', Validators.required],
+    });
+  }
 
   logOut() {
     this.isLoading = true;
@@ -70,9 +100,19 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
+  submit() {
+    log.debug('full form: ', this.postForm.value);
+    log.debug('values: ', this.postForm.get('body').value);
+  }
+
   previewPost() {
     this.preview = true;
     this.createNow = false;
     log.debug('preview mode!');
+    this.editorContent = this.postForm.get('body').value;
+  }
+
+  get controls() {
+    return this.postForm.controls;
   }
 }
