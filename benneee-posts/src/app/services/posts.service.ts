@@ -4,6 +4,7 @@ import { BaseService } from './../core/base.service';
 import { Injectable } from '@angular/core';
 
 export interface PostItem {
+  _id?: string;
   title: string;
   createdAt: string;
   postImages?: string[];
@@ -25,5 +26,9 @@ export class PostsService extends BaseService<any> {
 
   getPosts(): Observable<any> {
     return this.sendGet(this.baseUrl(routes.posts));
+  }
+
+  deletePost(id: string): Observable<any> {
+    return this.sendDelete(this.baseUrl(`${routes.posts}/${id}`));
   }
 }
