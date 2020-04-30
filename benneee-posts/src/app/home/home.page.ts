@@ -18,6 +18,7 @@ export class HomePage implements OnInit, OnDestroy {
   isLoading = true;
   userObj: any;
   createNow = false;
+  preview = false;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -63,8 +64,15 @@ export class HomePage implements OnInit, OnDestroy {
 
   createPost() {
     this.createNow = true;
+    this.preview = false;
     if (this.createNow === true) {
       log.debug('Btn Clicked!');
     }
+  }
+
+  previewPost() {
+    this.preview = true;
+    this.createNow = false;
+    log.debug('preview mode!');
   }
 }
