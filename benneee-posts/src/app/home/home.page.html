@@ -48,6 +48,19 @@
               </ion-item>
 
               <ion-item>
+                <ion-label position="floating">Cover Image</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="postImages"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="handleImgUpload($event)"
+                ></ion-input>
+                <div
+                  *ngIf="controls?.postImages.touched && !controls?.postImages.valid"
+                ></div>
+              </ion-item>
+
+              <ion-item>
                 <ion-label>Category</ion-label>
                 <ion-select formControlName="category" placeholder="Select One">
                   <ion-select-option value="Personal"
@@ -76,7 +89,7 @@
               </ion-item>
 
               <ion-item>
-                <ion-label>Description</ion-label>
+                <ion-label>Publish</ion-label>
                 <ion-checkbox
                   (ionChange)="$event.target.checked
                 ? postForm.controls['published'].setValue(true)

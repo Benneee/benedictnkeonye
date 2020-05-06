@@ -31,4 +31,8 @@ export class PostsService extends BaseService<any> {
   deletePost(id: string): Observable<any> {
     return this.sendDelete(this.baseUrl(`${routes.posts}/${id}`));
   }
+
+  createPost(payload: PostItem): Observable<any> {
+    return this.sendPost(this.baseUrl(routes.posts), payload, true);
+  }
 }
