@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="ion-text-center ion-margin-top" *ngIf="!createNow">
+  <div class="ion-text-center ion-margin-top" *ngIf="!createNow && !preview">
     <img src="../../assets/images/posts.svg" alt="Posts" />
     <ion-label>
       <h2 class="ion-margin-bottom">
@@ -32,7 +32,133 @@
     </ion-grid>
   </div>
 
-  <div *ngIf="createNow">
-    <h2>Start new post now!</h2>
+  <div *ngIf="createNow" class="ion-margin">
+    <!-- <h2>Start new post now!</h2> -->
+    <form [formGroup]="postForm" (ngSubmit)="submit()">
+      <ion-grid>
+        <ion-row>
+          <ion-col size-sm="6" offset-sm="3">
+            <ion-list>
+              <ion-item>
+                <ion-label position="floating">Title</ion-label>
+                <ion-input type="text" formControlName="title"></ion-input>
+                <div
+                  *ngIf="controls?.title.touched && !controls?.title.valid"
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Cover Image</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="postImages"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="handleImgUpload($event)"
+                ></ion-input>
+                <div
+                  *ngIf="controls?.postImages.touched && !controls?.postImages.valid"
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Category</ion-label>
+                <ion-select formControlName="category" placeholder="Select One">
+                  <ion-select-option value="Personal"
+                    >Personal</ion-select-option
+                  >
+                  <ion-select-option value="Technical"
+                    >Technical</ion-select-option
+                  >
+                </ion-select>
+
+                <div
+                  *ngIf="controls?.category.touched && !controls?.category.valid"
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Description</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="description"
+                ></ion-input>
+
+                <div
+                  *ngIf="controls?.description.touched && !controls?.description.valid"
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Publish</ion-label>
+                <ion-checkbox
+                  (ionChange)="$event.target.checked
+                ? postForm.controls['published'].setValue(true)
+                : postForm.controls['published'].setValue(false)
+                "
+                  formControlName="published"
+                  color="primary"
+                >
+                </ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <quill-editor
+        formControlName="body"
+        [styles]="{height: '200px'}"
+        [modules]="config"
+      >
+      </quill-editor>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size-sm="6" offset-sm="3">
+            <ion-button
+              class="ion-margin-top"
+              color="success"
+              [disabled]="!postForm.valid"
+              expand="block"
+              type="submit"
+            >
+              Submit
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button
+            fill="outline"
+            expand="block"
+            [disabled]="!postForm.valid"
+            (click)="previewPost()"
+          >
+            Preview
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="preview" class="ion-margin">
+    <!-- <h4>Sneak Peak!</h4> -->
+    <quill-view
+      [content]="editorContent"
+      format="text"
+      theme="snow"
+    ></quill-view>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button fill="outline" expand="block" (click)="createPost()">
+            Back to Post!
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>

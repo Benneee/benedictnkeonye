@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { PostsPageRoutingModule } from './posts-routing.module';
 
 import { PostsPage } from './posts.page';
+import { DeleteModalComponent } from '../../shared/delete-modal/delete-modal.component';
 
 @NgModule({
   imports: [
@@ -18,5 +19,6 @@ import { PostsPage } from './posts.page';
     PostsPageRoutingModule,
   ],
   declarations: [PostsPage],
+  entryComponents: [DeleteModalComponent],
 })
 export class PostsPageModule {}

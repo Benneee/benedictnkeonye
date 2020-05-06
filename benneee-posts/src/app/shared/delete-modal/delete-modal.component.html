@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="ion-margin">
+    <p>Are you sure you want to delete this post with the following details?</p>
+    <p>Title: {{ postData?.title }}</p>
+    <p>Description: {{ postData?.description }}</p>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-button color="danger" expand="block" (click)="deletePost(postData)"
+          >Delete Post</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
