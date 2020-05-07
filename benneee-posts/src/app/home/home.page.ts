@@ -127,7 +127,6 @@ export class HomePage implements OnInit, OnDestroy {
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(file);
       reader.onload = () => {
-        // log.debug('img: ', reader.result);
         this.selectedImg = reader.result;
         this.postForm.patchValue({
           postImages: reader.result,
