@@ -60,7 +60,6 @@ export class PostsPage implements OnInit, OnDestroy {
           .subscribe(
             (res: any) => {
               if (res) {
-                // log.debug('res: ', res);
                 sessionStorage.removeItem('credentials');
                 this.router.navigate(['login']);
                 loader.dismiss();
@@ -133,7 +132,6 @@ export class PostsPage implements OnInit, OnDestroy {
         (res: any) => {
           if (res) {
             loading.dismiss();
-            // log.debug('res: ', res);
             this.toastCtrl
               .create({
                 message: res.message,
