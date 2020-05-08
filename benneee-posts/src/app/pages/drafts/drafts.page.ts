@@ -2,9 +2,16 @@ import { Logger } from './../../core/logger.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import {
+  LoadingController,
+  ModalController,
+  ToastController,
+  IonItemSliding,
+} from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { untilDestroyed } from 'src/app/core/until-destroyed';
+import { PostsService, PostItem } from 'src/app/services/posts.service';
+import { DeleteModalComponent } from 'src/app/shared/delete-modal/delete-modal.component';
 
 const log = new Logger('Drafts');
 @Component({
@@ -14,14 +21,22 @@ const log = new Logger('Drafts');
 })
 export class DraftsPage implements OnInit, OnDestroy {
   isLoading = false;
+  posts: PostItem[] = [];
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
+    private postsService: PostsService,
+    private modalCtrl: ModalController,
+    private toastCtrl: ToastController,
   ) {}
 
   ngOnInit() {}
+
+  ionViewDidEnter() {
+    this.getUserPosts();
+  }
 
   ngOnDestroy() {}
 
@@ -56,5 +71,87 @@ export class DraftsPage implements OnInit, OnDestroy {
             },
           );
       });
+  }
+
+  getUserPosts() {
+    this.isLoading = true;
+    this.loadingCtrl
+      .create({
+        message: 'Loading your drafts',
+      })
+      .then((loader) => {
+        loader.present();
+        const posts$ = this.postsService.getPosts();
+
+        posts$
+          .pipe(
+            finalize(() => {
+              this.isLoading = false;
+            }),
+            untilDestroyed(this),
+          )
+          .subscribe(
+            (res: any) => {
+              if (res) {
+                log.debug('posts: ', res.data);
+                this.posts = res.data;
+                this.posts = this.posts.filter(
+                  (post: PostItem) => post.published === false,
+                );
+                loader.dismiss();
+              }
+            },
+            (error: any) => {
+              log.debug('error: ', error);
+              loader.dismiss();
+            },
+          );
+      });
+  }
+
+  editPost(postId: string, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    log.debug('Post ID: ', postId);
+  }
+
+  async deletePost(post: PostItem, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    log.debug('post: ', post);
+    const modal = await this.modalCtrl.create({
+      component: DeleteModalComponent,
+      componentProps: {
+        postData: post,
+      },
+    });
+    await modal.present();
+    const { data, role } = await modal.onDidDismiss();
+    if (role === 'confirm') {
+      const loading = await this.loadingCtrl.create({
+        message: 'Deleting Post',
+      });
+      await loading.present();
+      const deletePost$ = this.postsService.deletePost(data._id);
+      deletePost$.pipe(untilDestroyed(this)).subscribe(
+        (res: any) => {
+          if (res) {
+            loading.dismiss();
+            this.toastCtrl
+              .create({
+                message: res.message,
+                duration: 2000,
+                position: 'top',
+              })
+              .then((toast) => {
+                toast.present();
+              });
+            this.getUserPosts();
+          }
+        },
+        (error: any) => {
+          log.debug('error: ', error);
+          loading.dismiss();
+        },
+      );
+    }
   }
 }

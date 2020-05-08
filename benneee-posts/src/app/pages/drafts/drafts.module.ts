@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { DraftsPageRoutingModule } from './drafts-routing.module';
 
 import { DraftsPage } from './drafts.page';
+import { DeleteModalComponent } from 'src/app/shared/delete-modal/delete-modal.component';
 
 @NgModule({
   imports: [
@@ -18,5 +19,6 @@ import { DraftsPage } from './drafts.page';
     DraftsPageRoutingModule,
   ],
   declarations: [DraftsPage],
+  entryComponents: [DeleteModalComponent],
 })
 export class DraftsPageModule {}

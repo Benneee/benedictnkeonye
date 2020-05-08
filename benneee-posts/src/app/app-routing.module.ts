@@ -1,3 +1,4 @@
+import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { AuthGuard } from './auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
@@ -18,6 +19,10 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () =>
       import('./auth/signup/signup.module').then((m) => m.SignupPageModule),
+  },
+  {
+    path: 'post/:id',
+    component: ViewPostComponent,
   },
 ];
 

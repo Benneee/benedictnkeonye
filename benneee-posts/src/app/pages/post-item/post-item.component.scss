@@ -1,6 +1,6 @@
 h1 {
   font-size: 18px;
-  border: 1px solid var(--ion-color-primary);
+  // border: 1px solid var(--ion-color-primary);
   padding: 8px;
   border-radius: 5px;
 }
@@ -12,4 +12,8 @@ h1 {
   .space-left {
     margin-left: 5px;
   }
+}
+
+.post-title {
+  font-weight: 700;
 }

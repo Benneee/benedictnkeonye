@@ -1,3 +1,4 @@
+import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -11,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ViewPostComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
