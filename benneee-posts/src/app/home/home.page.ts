@@ -108,6 +108,7 @@ export class HomePage implements OnInit, OnDestroy {
   submit() {
     log.debug('full form: ', this.postForm.value);
     log.debug('values: ', this.postForm.get('body').value);
+    this.createNewPost(this.postForm.value);
   }
 
   previewPost() {
@@ -128,8 +129,10 @@ export class HomePage implements OnInit, OnDestroy {
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.selectedImg = reader.result;
+        const result = [reader.result];
+        const img = { images: [...result] };
         this.postForm.patchValue({
-          postImages: reader.result,
+          postImages: img,
         });
       };
     }
@@ -170,8 +173,8 @@ export class HomePage implements OnInit, OnDestroy {
               }
             },
             (err: any) => {
-              loader.dismiss();
               log.debug('error: ', err);
+              loader.dismiss();
             },
           );
       });
