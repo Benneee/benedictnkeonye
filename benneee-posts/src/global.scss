@@ -28,7 +28,14 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
 
+/* Font family import */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
+
 [contenteditable] {
   -webkit-user-select: text;
   user-select: text;
+}
+
+* {
+  font-family: 'Nanum Gothic', sans-serif;
 }
