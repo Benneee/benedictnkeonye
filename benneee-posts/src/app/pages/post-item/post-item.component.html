@@ -3,7 +3,13 @@
     <ion-img [src]="(post?.postImages)['0'].images[0]"></ion-img>
   </ion-thumbnail>
   <ion-label>
-    <h1>{{ post?.title }}</h1>
+    <h1 class="post-title">
+      {{ post?.title }}
+      <span (click)="openPost(post?._id)">
+        <ion-icon name="arrow-forward-circle"></ion-icon>
+      </span>
+    </h1>
+
     <div class="offer-details">
       <ion-text color="primary" class="space-left" color="dark">{{
         post?.description
@@ -17,8 +23,9 @@
               {{ post?.category }}
             </small>
           </ion-col>
-          <ion-col>
+          <ion-col class="ion-text-right">
             <small>
+              <ion-icon class="icon" name="calendar"></ion-icon>
               {{ post?.createdAt | date: 'dd MMM. yyyy' }}
             </small>
           </ion-col>
