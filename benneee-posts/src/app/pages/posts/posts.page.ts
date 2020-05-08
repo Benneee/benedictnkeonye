@@ -95,6 +95,9 @@ export class PostsPage implements OnInit, OnDestroy {
               if (res) {
                 log.debug('posts: ', res.data);
                 this.posts = res.data;
+                this.posts = this.posts.filter(
+                  (post: PostItem) => post.published === true,
+                );
                 loader.dismiss();
               }
             },

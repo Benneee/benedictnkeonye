@@ -10,6 +10,7 @@ export interface PostItem {
   postImages?: string[];
   category: string;
   description: string;
+  published?: boolean;
 }
 
 const routes = {
