@@ -19,7 +19,6 @@ export class PostItemComponent implements OnInit {
 
   openPost(id: string) {
     log.debug('id: ', id);
-    // ToDo: add the post ID to this route as the path has been updated to accept IDs
-    // this.router.navigate(['/', 'post']);
+    this.router.navigate(['/', 'post', id]);
   }
 }
