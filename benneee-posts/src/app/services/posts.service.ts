@@ -25,6 +25,10 @@ export class PostsService extends BaseService<any> {
     super(http);
   }
 
+  getSinglePost(id: string) {
+    return this.sendGet(this.baseUrl(`${routes.posts}/${id}`));
+  }
+
   getPosts(): Observable<any> {
     return this.sendGet(this.baseUrl(routes.posts));
   }
