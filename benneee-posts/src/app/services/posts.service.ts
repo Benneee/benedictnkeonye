@@ -11,6 +11,7 @@ export interface PostItem {
   category: string;
   description: string;
   published?: boolean;
+  body: string;
 }
 
 const routes = {
