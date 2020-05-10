@@ -22,6 +22,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   isLoading = false;
   id: string;
   post: PostItem;
+  body: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -103,6 +104,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
               if (res) {
                 log.debug('post: ', res);
                 this.post = res.data;
+                this.body = this.post.body;
                 loader.dismiss();
               }
             },
@@ -112,5 +114,9 @@ export class ViewPostComponent implements OnInit, OnDestroy {
             },
           );
       });
+  }
+
+  updatePost(id: string) {
+    log.debug('id: ', id);
   }
 }
