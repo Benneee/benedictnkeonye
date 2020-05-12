@@ -1,3 +1,4 @@
+import { UpdateModalComponent } from './../../shared/update-modal/update-modal.component';
 import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -19,6 +20,6 @@ import { DeleteModalComponent } from 'src/app/shared/delete-modal/delete-modal.c
     DraftsPageRoutingModule,
   ],
   declarations: [DraftsPage],
-  entryComponents: [DeleteModalComponent],
+  entryComponents: [DeleteModalComponent, UpdateModalComponent],
 })
 export class DraftsPageModule {}
