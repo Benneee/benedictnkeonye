@@ -41,4 +41,11 @@ export class PostsService extends BaseService<any> {
   createPost(payload: PostItem): Observable<any> {
     return this.sendPost(this.baseUrl(routes.posts), payload, true);
   }
+
+  updatePost(payload: PostItem) {
+    return this.sendPatch(
+      this.baseUrl(`${routes.posts}/${payload._id}`),
+      payload,
+    );
+  }
 }
