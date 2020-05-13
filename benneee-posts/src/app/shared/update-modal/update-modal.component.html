@@ -7,3 +7,112 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<ion-content>
+  <div class="ion-margin">
+    <form [formGroup]="postForm" (ngSubmit)="submit()">
+      <ion-grid>
+        <ion-row>
+          <ion-col size-sm="6" offset-sm="3">
+            <ion-list>
+              <ion-item>
+                <ion-label position="floating">Title</ion-label>
+                <ion-input type="text" formControlName="title"></ion-input>
+                <div
+                  *ngIf="controls?.title.touched && !controls?.title.valid"
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Cover Image</ion-label>
+                <ion-input
+                  type="file"
+                  [value]="(postData?.postImages)['0'].images[0]"
+                  formControlName="postImages"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="handleImgUpload($event)"
+                ></ion-input>
+                <div
+                  *ngIf="
+                    controls?.postImages.touched && !controls?.postImages.valid
+                  "
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Category</ion-label>
+                <ion-select formControlName="category" placeholder="Select One">
+                  <ion-select-option value="Personal"
+                    >Personal</ion-select-option
+                  >
+                  <ion-select-option value="Technical"
+                    >Technical</ion-select-option
+                  >
+                </ion-select>
+
+                <div
+                  *ngIf="
+                    controls?.category.touched && !controls?.category.valid
+                  "
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Description</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="description"
+                ></ion-input>
+
+                <div
+                  *ngIf="
+                    controls?.description.touched &&
+                    !controls?.description.valid
+                  "
+                ></div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Publish</ion-label>
+                <ion-checkbox
+                  (ionChange)="
+                    $event.target.checked
+                      ? postForm.controls['published'].setValue(true)
+                      : postForm.controls['published'].setValue(false)
+                  "
+                  formControlName="published"
+                  color="primary"
+                >
+                </ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <quill-editor
+        contenteditable="true"
+        formControlName="body"
+        [styles]="{ height: '200px' }"
+        [modules]="config"
+      >
+      </quill-editor>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size-sm="6" offset-sm="3">
+            <ion-button
+              class="ion-margin-top"
+              color="success"
+              [disabled]="!postForm.valid"
+              expand="block"
+              type="submit"
+            >
+              Submit
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>
