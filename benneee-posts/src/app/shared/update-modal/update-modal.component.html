@@ -27,7 +27,6 @@
                 <ion-label position="floating">Cover Image</ion-label>
                 <ion-input
                   type="file"
-                  [value]="(postData?.postImages)['0'].images[0]"
                   formControlName="postImages"
                   accept=".png, .jpg, .jpeg"
                   (change)="handleImgUpload($event)"

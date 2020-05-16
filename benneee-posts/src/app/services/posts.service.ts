@@ -42,10 +42,7 @@ export class PostsService extends BaseService<any> {
     return this.sendPost(this.baseUrl(routes.posts), payload, true);
   }
 
-  updatePost(payload: PostItem) {
-    return this.sendPatch(
-      this.baseUrl(`${routes.posts}/${payload._id}`),
-      payload,
-    );
+  updatePost(payload: PostItem, id: string): Observable<any> {
+    return this.sendPatch(this.baseUrl(`${routes.posts}/${id}`), payload);
   }
 }
