@@ -1,3 +1,4 @@
+import { UpdateModalComponent } from './../../shared/update-modal/update-modal.component';
 import { Logger } from './../../core/logger.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -109,9 +110,47 @@ export class DraftsPage implements OnInit, OnDestroy {
       });
   }
 
-  editPost(postId: string, slidingItem: IonItemSliding) {
+  async editPost(post: PostItem, slidingItem: IonItemSliding) {
     slidingItem.close();
-    log.debug('Post ID: ', postId);
+    log.debug('Post: ', post);
+    const modal = await this.modalCtrl.create({
+      component: UpdateModalComponent,
+      componentProps: {
+        postData: post,
+      },
+    });
+    await modal.present();
+    const { data, role } = await modal.onDidDismiss();
+    if (role === 'confirm') {
+      log.debug('data: ', role, data);
+      const loading = await this.loadingCtrl.create({
+        message: 'Updating Post',
+      });
+      await loading.present();
+
+      const updatePost$ = this.postsService.updatePost(data, post._id);
+      updatePost$.pipe(untilDestroyed(this)).subscribe(
+        (res: any) => {
+          if (res) {
+            loading.dismiss();
+            this.toastCtrl
+              .create({
+                message: res.message,
+                duration: 2000,
+                position: 'top',
+              })
+              .then((toast) => {
+                toast.present();
+              });
+            this.getUserPosts();
+          }
+        },
+        (error: any) => {
+          log.debug('error: ', error);
+          loading.dismiss();
+        },
+      );
+    }
   }
 
   async deletePost(post: PostItem, slidingItem: IonItemSliding) {
