@@ -128,7 +128,7 @@ export class PostsPage implements OnInit, OnDestroy {
       });
       await loading.present();
 
-      const updatePost$ = this.postsService.updatePost(data);
+      const updatePost$ = this.postsService.updatePost(data, post._id);
       updatePost$.pipe(untilDestroyed(this)).subscribe(
         (res: any) => {
           if (res) {

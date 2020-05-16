@@ -50,12 +50,11 @@ export class UpdateModalComponent implements OnInit {
   setValuesInPostForm(post: PostItem) {
     this.postForm = this.fb.group({
       body: post.body,
-      postImages: post.postImages['0'].images[0],
+      postImages: post.postImages,
       category: post.category,
       description: post.description,
       published: post.published,
       title: post.title,
-      _id: post._id,
     });
   }
 
